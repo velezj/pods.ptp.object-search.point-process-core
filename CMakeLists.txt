@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.6.0)
 
 # pull in the pods macros. See cmake/pods.cmake for documentation
-set(POD_NAME point-process-core)
+set(POD_NAME p2l-point-process-core)
 include(cmake/pods.cmake)
 
 # automatically build LCM types.  This also defines a number of CMake
@@ -19,7 +19,7 @@ set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g3")
 
 
 # the point-process-core library
-add_library( point-process-core SHARED
+add_library( p2l-point-process-core SHARED
   src/point_math.cpp
   src/entropy.cpp
   src/marked_grid.cpp
@@ -33,12 +33,19 @@ pods_install_headers(
   src/context.hpp
   DESTINATION
   point-process-core )
-pods_use_pkg_config_packages(point-process-core gsl boost-1.51.0 lcmtypes_point-process-core)
-pods_install_libraries( point-process-core )
-pods_install_pkg_config_file(point-process-core
+pods_use_pkg_config_packages(p2l-point-process-core 
+    gsl-1.16 
+    boost-1.54.0 
+    lcmtypes_p2l-point-process-core
+    p2l-math-core
+    lcmtypes_p2l-math-core
+    p2l-probability-core
+    lcmtypes_p2l-probability-core)
+pods_install_libraries( p2l-point-process-core )
+pods_install_pkg_config_file(p2l-point-process-core
     CFLAGS
-    LIBS -lpoint-process-core
-    REQUIRES gsl boost-1.51.0
+    LIBS -lp2l-point-process-core
+    REQUIRES gsl-1.16 boost-1.54.0 p2l-math-core lcmtypes_p2l-math-core p2l-probability-core lcmtypes_p2l-probability-core 
     VERSION 0.0.1)
 
 

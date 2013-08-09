@@ -5,7 +5,7 @@
 #include <boost/unordered_map.hpp>
 #include <map>
 #include <boost/optional.hpp>
-#include <lcmtypes/math_core.hpp>
+#include <lcmtypes/p2l_math_core.hpp>
 #include <iostream>
 
 

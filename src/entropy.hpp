@@ -2,7 +2,7 @@
 #if !defined( __POINT_PROCESS_CORE_ENTROPY_HPP__ )
 #define __POINT_PROCESS_CORE_ENTROPY_HPP__
 
-#include <lcmtypes/math_core.hpp>
+#include <lcmtypes/p2l_math_core.hpp>
 #include "point_process.hpp"
 
 namespace point_process_core {
