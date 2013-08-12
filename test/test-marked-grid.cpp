@@ -29,7 +29,7 @@ int main( int argc, char** argv )
   // get marked cells
   std::vector<marked_grid_cell_t> marked_cells = grid.all_marked_cells();
   
-  for( int i = 0; i < marked_cells.size(); ++i ) {
+  for( size_t i = 0; i < marked_cells.size(); ++i ) {
     std::cout << "cell " << marked_cells[i] << std::endl;
   }
 

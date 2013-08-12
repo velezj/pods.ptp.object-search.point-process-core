@@ -16,11 +16,11 @@ namespace point_process_core {
     
     // just take average along each coordinate
     for( size_t i = 0; i < points.size(); ++i ) {
-      for( size_t dim = 0; dim < m.n; ++dim ) {
+      for( size_t dim = 0; (long)dim < m.n; ++dim ) {
 	m.coordinate[dim] += points[i].coordinate[dim];
       }
     }
-    for( size_t dim = 0; dim < m.n; ++dim ) {
+    for( size_t dim = 0; (long)dim < m.n; ++dim ) {
       m.coordinate[dim] /= points.size();
     }
     

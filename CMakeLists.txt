@@ -6,16 +6,21 @@ include(cmake/pods.cmake)
 
 # automatically build LCM types.  This also defines a number of CMake
 # variables, see cmake/lcmtypes.cmake for details
-include(cmake/lcmtypes.cmake)
-lcmtypes_build()
+#include(cmake/lcmtypes.cmake)
+#lcmtypes_build()
 
-include_directories(${LCMTYPES_INCLUDE_DIRS})
+# include_directories(${LCMTYPES_INCLUDE_DIRS})
 
 #set(CMAKE_CXX_FLAGS "-std=c++0x -pedantic -Wall -O2 -g")
 #set(CMAKE_CXX_FLAGS "-std=c++0x -pedantic -Wall -O0 -g3")
 
-add_definitions( -std=c++0x -pedantic -Wall )
+add_definitions( -Wall -fdiagnostics-show-option )
 set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g3")
+
+option ( USE_PEDANTIC "Turn on -pendantic mode in gcc. This will spit out *lots* of warnings from lcm :-(, but hopefully none from the rest of the code" OFF)
+if( USE_PEDANTIC )
+    add_definitions( -pedantic )
+endif (USE_PEDANTIC)
 
 
 # the point-process-core library
@@ -36,7 +41,6 @@ pods_install_headers(
 pods_use_pkg_config_packages(p2l-point-process-core 
     gsl-1.16 
     boost-1.54.0 
-    lcmtypes_p2l-point-process-core
     p2l-math-core
     lcmtypes_p2l-math-core
     p2l-probability-core

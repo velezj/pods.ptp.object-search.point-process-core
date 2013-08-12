@@ -92,7 +92,7 @@ namespace point_process_core {
 
     // compute empirical entropy of the grids sample
     double entropy = 0;
-    for( int i = 0; i < grid_counts.size(); ++i ) {
+    for( size_t i = 0; i < grid_counts.size(); ++i ) {
       double p = grid_counts[i] / (double)params.num_samples;
       entropy += p * log(p);
       
@@ -155,7 +155,7 @@ namespace point_process_core {
 
     // compute empirical entropy of the grids sample
     double entropy = 0;
-    for( int i = 0; i < grid_counts.size(); ++i ) {
+    for( size_t i = 0; i < grid_counts.size(); ++i ) {
       double p = grid_counts[i] / (double)params.num_samples;
       entropy += p * log(p);
     }
