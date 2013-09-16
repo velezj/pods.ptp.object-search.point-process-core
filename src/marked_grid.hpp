@@ -392,6 +392,63 @@ namespace point_process_core {
   bool operator< (const marked_grid_cell_t& a,
 		  const marked_grid_cell_t& b );
 
+
+  // Description:
+  // Returns the cells which are inside of the given window within
+  // the marked grid.
+  template<class T>
+  std::vector<marked_grid_cell_t> 
+  cells_fully_inside_window( const marked_grid_t<T>& grid,
+			     const math_core::nd_aabox_t& window )
+  {
+    std::vector< marked_grid_cell_t > res;
+    std::vector< marked_grid_cell_t > all_cells = grid.all_cells();
+    std::vector< marked_grid_cell_t >::const_iterator iter;
+    for( iter = all_cells.begin();
+	 iter != all_cells.end();
+	 ++iter ) {
+      if( is_fully_inside( grid.region( *iter ), window ) ) {
+	res.push_back( *iter );
+      }
+    }
+    return res;
+  }
+
+  // Description:
+  // Returns the smallest window which includes all the given cells
+  template<class T>
+  math_core::nd_aabox_t
+  enclosing_window_for_cells( const marked_grid_t<T>& grid,
+			      const std::vector<marked_grid_cell_t>& cells )
+  {
+    if( cells.empty() )
+      return nd_aabox_t();
+
+    // simply find max start and min end points for the cell regions
+    nd_point_t max_point = grid.region( cells[0] ).start;
+    nd_point_t min_point = grid.region( cells[0] ).end;
+    for( size_t i = 1; i < cells.size(); ++i ) {
+      nd_point_t s = grid.region( cells[i] ).start;
+      nd_point_t e = grid.region( cells[i] ).end;
+
+      // swap points if for some reason start < end
+      if( point_lexicographical_compare( s, e ) ) {
+	s = e;
+	e = grid.region( cells[i] ).start;
+      }
+      
+      // update max/min points
+      if( point_lexicographical_compare( max_point, s ) ) {
+        max_point = s;
+      }
+      if( point_lexicographical_compare( e, min_point ) ) {
+	min_point = e;
+      }
+    }
+
+    return aabox( max_point, min_point );
+  }
+
 }
 
 #endif
