@@ -7,6 +7,7 @@
 #include <boost/optional.hpp>
 #include <lcmtypes/p2l_math_core.hpp>
 #include <iostream>
+#include <math-core/geom.hpp>
 
 
 namespace point_process_core {
