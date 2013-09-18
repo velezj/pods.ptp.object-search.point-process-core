@@ -447,7 +447,7 @@ namespace point_process_core {
       }
     }
 
-    return aabox( max_point, min_point );
+    return aabox( min_point, max_point );
   }
 
 }
