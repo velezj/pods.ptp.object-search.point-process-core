@@ -81,7 +81,7 @@ namespace point_process_core {
       for( std::size_t i = 0; i < iterations; ++i ) {
 	this->single_mcmc_step();
 	if( tick ) {
-	  std::cout << ".";
+	  std::cout << "." << i << "/" << iterations << "/";
 	  std::cout.flush();
 	}   
       }
