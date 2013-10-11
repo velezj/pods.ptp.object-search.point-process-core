@@ -87,6 +87,13 @@ namespace point_process_core {
       }
     }
 
+
+    // Description:
+    // Prints a "shallow" one line trace (no newlines) for this
+    // model parameters and state.
+    virtual
+    void print_shallow_trace( std::ostream& out ) const = 0;
+
   protected:
 
 
