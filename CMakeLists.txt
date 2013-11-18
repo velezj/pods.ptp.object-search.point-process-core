@@ -36,6 +36,7 @@ pods_install_headers(
   src/entropy.hpp
   src/point_process.hpp
   src/context.hpp
+  src/histogram.hpp
   DESTINATION
   point-process-core )
 pods_use_pkg_config_packages(p2l-point-process-core 
