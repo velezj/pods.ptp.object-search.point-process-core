@@ -371,16 +371,22 @@ namespace point_process_core {
 
   };
 
+  //====================================================================
+  
 
   // Description:
   // Output stream operator
   std::ostream& operator<< (std::ostream& os,
 			    const marked_grid_cell_t& cell);
 
+  //====================================================================
+  
   // Description:
   // The hash function for cells
   size_t hash_value( const marked_grid_cell_t& cell );
 
+  //====================================================================
+  
   // Description:
   // Eqaulity for cells
   bool operator== (const marked_grid_cell_t& a,
@@ -393,6 +399,8 @@ namespace point_process_core {
   bool operator< (const marked_grid_cell_t& a,
 		  const marked_grid_cell_t& b );
 
+  //====================================================================
+  
 
   // Description:
   // Returns the cells which are inside of the given window within
@@ -414,6 +422,8 @@ namespace point_process_core {
     }
     return res;
   }
+
+  //====================================================================
 
   // Description:
   // Returns the smallest window which includes all the given cells
@@ -450,6 +460,52 @@ namespace point_process_core {
     return aabox( min_point, max_point );
   }
 
+
+  //====================================================================
+  
+  // Description:
+  // Calculate the 0-1 loss distance between two marked grids
+  // *with the same cells*
+  template< class T >
+  double marked_grid_distance( const marked_grid_t<T>& a,
+			       const marked_grid_t<T>& b )
+  {
+    if( a.cell_sizes() != b.cell_sizes() ) {
+      throw std::runtime_error( "cannot calculate distance between different sized markd grids" );
+    }
+    
+    // ok, jsut calculate the 0-1 sum loss ( L1 )
+    double dist = 0.0;
+    for( auto cell : a.all_cells() ) {
+      if( a( cell ) != b( cell ) ) {
+	dist += 1.0;
+      }
+    }
+    
+    return dist;
+  }
+  
+  //====================================================================
+  
+  // Description:
+  // Computes a boolean marked grid from a point set, where the
+  // cell is true if there was at least one point in the point set
+  // inisde the cell region
+  inline
+  marked_grid_t<bool>
+  point_set_as_grid( const std::vector<nd_point_t>& points,
+		     const nd_aabox_t& window,
+		     const double& epsilon )
+  {
+    marked_grid_t<bool> grid( window, epsilon );
+    for( auto p : points ) {
+      grid.set( p, true );
+    }
+    return grid;
+  }
+  
+  //====================================================================
+  
 }
 
 #endif

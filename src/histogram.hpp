@@ -5,6 +5,8 @@
 
 #include "marked_grid.hpp"
 #include <algorithm>
+#include <p2l-common/plots.hpp>
+
 
 namespace point_process_core {
 
@@ -241,6 +243,30 @@ namespace point_process_core {
     return kl;
   }
   
+
+  //-------------------------------------------------------------------------
+
+
+  // Description :
+  // Plot a 1D or 2D histogram.
+  // For higher dimension, we treat the
+  // element without a spatial quality, simply as cell numbers
+  template<typename T>
+  void svg_plot_histogram( const std::string& filename, 
+			   const histogram_t<T>& hist,
+			   const std::string& label = "")
+  {
+    // turn the counts by cell to double values
+    std::vector<double> y_data;
+    for( auto cell : hist.all_cells_ordered() ) {
+      double count = 0;
+      if( hist( cell ) ) {
+	count = *hist(cell);
+      }
+      y_data.push_back( count );
+    }
+    p2l::common::svg_plot( filename, y_data, label );
+  }
 
   //-------------------------------------------------------------------------
   
