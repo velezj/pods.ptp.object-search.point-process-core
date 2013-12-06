@@ -436,24 +436,24 @@ namespace point_process_core {
       return nd_aabox_t();
 
     // simply find max start and min end points for the cell regions
-    nd_point_t max_point = grid.region( cells[0] ).start;
-    nd_point_t min_point = grid.region( cells[0] ).end;
+    nd_point_t max_point = grid.region( cells[0] ).end;
+    nd_point_t min_point = grid.region( cells[0] ).start;
     for( size_t i = 1; i < cells.size(); ++i ) {
       nd_point_t s = grid.region( cells[i] ).start;
       nd_point_t e = grid.region( cells[i] ).end;
 
-      // swap points if for some reason start < end
-      if( point_lexicographical_compare( s, e ) ) {
+      // swap points if for some reason end < start
+      if( point_lexicographical_compare( e, s ) ) {
 	s = e;
 	e = grid.region( cells[i] ).start;
       }
       
       // update max/min points
-      if( point_lexicographical_compare( max_point, s ) ) {
-        max_point = s;
+      if( point_lexicographical_compare( max_point, e ) ) {
+        max_point = e;
       }
-      if( point_lexicographical_compare( e, min_point ) ) {
-	min_point = e;
+      if( point_lexicographical_compare( s, min_point ) ) {
+	min_point = s;
       }
     }
 
