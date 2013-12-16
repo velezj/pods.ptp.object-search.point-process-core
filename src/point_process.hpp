@@ -94,6 +94,18 @@ namespace point_process_core {
     virtual
     void print_shallow_trace( std::ostream& out ) const = 0;
 
+    // Descripiton:
+    // Plots the state of this point process.
+    // The plot will have the given title.
+    // The plot id is returned.
+    // This uses the plot-server API for plotting, hence the
+    // resulting ID allows fetching of the plot data itself.
+    virtual
+    std::string
+    plot( const std::string& title ) const 
+    { std::cout << "!!! DEFAULT NON-PLOT plot() called!" << std::endl;
+      return ""; }
+
   protected:
 
 
