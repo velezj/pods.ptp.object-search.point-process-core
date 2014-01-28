@@ -1,5 +1,9 @@
 
 #include "marked_grid.hpp"
+#include <cimg/CImg.h>
+#include <stdexcept>
+
+using namespace cimg_library;
 
 
 namespace point_process_core {
@@ -58,5 +62,37 @@ namespace point_process_core {
   }
 
 
+  //====================================================================
+
+  void save_png( const std::string& filename, 
+		 const marked_grid_t<double>& grid )
+  {
+
+    // make sure this is 2D
+    assert( grid.window().n == 2 );
+    if( grid.window().n != 2 ) {
+      throw std::runtime_error("cannot save PNG for marked_grid of dimmension other that 2");
+    }
+    
+    // ok, calculate the width,height of image
+    int width, height;
+    width = (grid.window().end[0] - grid.window().start[0]) / grid.cell_sizes()[0];
+    height = (grid.window().end[1] - grid.window().start[1]) / grid.cell_sizes()[1];
+    
+    // create the CImg
+    CImg<double> image( width, height, 1, 1, 0 );
+    
+    // ok, now go thorugh every cell and push it's mark onto hte image
+    for( auto cell : grid.all_cells() ) {
+      long x = cell.coordinate[0];
+      long y = cell.coordinate[1];
+      if( grid( cell ) ) {
+	image( x, y ) = *grid(cell);
+      }
+    }
+    
+    // save as PNG
+    image.save_png( filename.c_str() );
+  }
 
 }

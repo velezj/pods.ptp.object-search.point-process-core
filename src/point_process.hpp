@@ -5,6 +5,7 @@
 #include <lcmtypes/p2l_math_core.hpp>
 #include <boost/shared_ptr.hpp>
 #include <iostream>
+#include "histogram.hpp"
 
 namespace point_process_core {
 
@@ -105,6 +106,38 @@ namespace point_process_core {
     plot( const std::string& title ) const 
     { std::cout << "!!! DEFAULT NON-PLOT plot() called!" << std::endl;
       return ""; }
+
+
+    // Description:
+    // Computes an estimate for the intensity funciton for this point process
+    // wihtin the given window, gridded with the given number of grids.
+    // Optionally, you can specify the number of mcmc steps between samples
+    // as well as the number of samples to use to compute the expected number
+    // of points per grid region.
+    virtual
+    histrogram_t<double>
+    intensity_estimate( const math_core::nd_aabox_t& window,
+			const size_t bins_per_dimension,
+			const size_t num_samples_for_estimate = 1000,
+			const size_t num_mcmc_iterations_between_samples = 1 )
+    {
+      histrogram_t<double> hist( window, bins_per_dimension );
+      for(size_t sample_i = 0; sample_i < num_samples_for_estimate; ++sample_i){
+	std::vector<math_core::nd_point_t> sample = this->sample();
+	for( math_core::nd_point_t p : sample ) {
+	  hist.increment_bin( p );
+	}
+	this->mcmc( num_mcmc_iterations_between_samples, false );
+      }
+      // normalize the counts by the numbr of samples to get
+      // average intensity
+      for( auto cell : hist.all_cells() ) {
+	if( hist(cell) ) {
+	  hist.set( cell, *hist(cell) / (double)num_samples_for_estimate );
+	}
+      }
+      return hist;
+    }
 
   protected:
 

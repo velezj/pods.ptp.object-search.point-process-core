@@ -45,13 +45,14 @@ pods_use_pkg_config_packages(p2l-point-process-core
     p2l-math-core
     lcmtypes_p2l-math-core
     p2l-probability-core
-    lcmtypes_p2l-probability-core)
+    lcmtypes_p2l-probability-core
+    cimg-1.5.7)
 pods_install_libraries( p2l-point-process-core )
 pods_install_pkg_config_file(p2l-point-process-core
     CFLAGS
     LIBS -lp2l-point-process-core
-    REQUIRES gsl-1.16 boost-1.54.0 p2l-math-core lcmtypes_p2l-math-core p2l-probability-core lcmtypes_p2l-probability-core 
-    VERSION 0.0.1)
+    REQUIRES gsl-1.16 boost-1.54.0 p2l-math-core lcmtypes_p2l-math-core p2l-probability-core lcmtypes_p2l-probability-core cimg-1.5.7
+    VERSION 0.0.2)
 
 
 add_subdirectory( test )

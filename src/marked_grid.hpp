@@ -505,6 +505,15 @@ namespace point_process_core {
   }
   
   //====================================================================
+
+  // Description:
+  // Create image from 2D marked grid
+  void save_png( const std::string& filename, 
+		 const marked_grid_t<double>& grid );
+		 
+
+  //====================================================================
+
   
 }
 
