@@ -82,6 +82,11 @@ namespace point_process_core {
       _init( window, origin, resolutions );
     }
 
+    // Description:
+    // Destroy a marked grid
+    virtual ~marked_grid_t()
+    {}
+
 
     // Description:
     // Returns a new grid of the given type (whichmight be different!)
@@ -304,6 +309,7 @@ namespace point_process_core {
       _bounds = window;
       _origin = origin;
       _cell_sizes = resolutions;
+      _map = map_t();
       
       // debug
       //std::cout << "    mk created!" << std::endl;
@@ -508,7 +514,7 @@ namespace point_process_core {
 
   // Description:
   // Create image from 2D marked grid
-  void save_png( const std::string& filename, 
+  void save_bmp( const std::string& filename, 
 		 const marked_grid_t<double>& grid );
 		 
 

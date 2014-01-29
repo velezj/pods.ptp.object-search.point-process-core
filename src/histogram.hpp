@@ -44,6 +44,11 @@ namespace point_process_core {
       // initialize the marked grid
       this->_init( window, window.start, resolutions );
     }
+
+    // Description:
+    // Destruct the histogram
+    virtual ~histogram_t()
+    {}
     
     
     // Description:

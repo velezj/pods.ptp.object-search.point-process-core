@@ -1,7 +1,9 @@
 
 #include "marked_grid.hpp"
-#include <cimg/CImg.h>
 #include <stdexcept>
+
+#define cimg_use_magick
+#include <cimg/CImg.h>
 
 using namespace cimg_library;
 
@@ -64,14 +66,14 @@ namespace point_process_core {
 
   //====================================================================
 
-  void save_png( const std::string& filename, 
+  void save_bmp( const std::string& filename, 
 		 const marked_grid_t<double>& grid )
   {
 
     // make sure this is 2D
     assert( grid.window().n == 2 );
     if( grid.window().n != 2 ) {
-      throw std::runtime_error("cannot save PNG for marked_grid of dimmension other that 2");
+      throw std::runtime_error("cannot save BMP for marked_grid of dimmension other that 2");
     }
     
     // ok, calculate the width,height of image
@@ -80,28 +82,41 @@ namespace point_process_core {
     height = (grid.window().end.coordinate[1] - grid.window().start.coordinate[1]) / grid.cell_sizes()[1];
     
     // create the CImg
-    CImg<double> image( width, height, 1, 1, 0 );
+    CImg<unsigned char> image( width, height, 1, 3, 0 );
 
     // get hte max element
     double max_value = -std::numeric_limits<double>::infinity();
-    for( auto cell : grid.all_cells() ) {
+    std::vector<marked_grid_cell_t> cells = grid.all_cells();
+    for( marked_grid_cell_t cell : cells ) {
       if( grid(cell) &&
 	  max_value < *grid(cell) ) {
 	max_value = *grid(cell);
       }
+      if( grid( cell ) ) {
+	//std::cout << "  grid val: " << *grid( cell ) << std::endl;
+      }
     }
+    std::cout << "saving BMP: (" << width << "x" << height << ") max_value = " << max_value << std::endl;
+
     
     // ok, now go thorugh every cell and push it's mark onto hte image
-    for( auto cell : grid.all_cells() ) {
+    cells = grid.all_cells();
+    for( marked_grid_cell_t cell : cells ) {
+      assert( cell.n == 2 );
+      assert( cell.coordinate.size() == cell.n );
       long x = cell.coordinate[0];
       long y = cell.coordinate[1];
       if( grid( cell ) ) {
-	image( x, y ) = ( *grid(cell) / max_value ) * 255;
+	int v = 55.0 + 200.0 * ( (*grid(cell)) / max_value );
+	image( x, y, 0, 0 ) = v;
+	image( x, y, 0, 1 ) = v;
+	image( x, y, 0, 2 ) = v;
+	//std::cout << "  (" << x << "," << y << "): " << (int)image(x,y) << "  [" << v << "]" << std::endl;
       }
     }
     
-    // save as PNG
-    image.save_png( filename.c_str() );
+    // save as BMP
+    image.save_bmp( filename.c_str() );
   }
 
 }
