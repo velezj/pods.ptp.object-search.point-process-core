@@ -119,7 +119,8 @@ namespace point_process_core {
     intensity_estimate( const math_core::nd_aabox_t& window,
 			const size_t bins_per_dimension,
 			const size_t num_samples_for_estimate = 1000,
-			const size_t num_mcmc_iterations_between_samples = 1 )
+			const size_t num_mcmc_iterations_between_samples = 1,
+			const bool tick = false )
     {
       histogram_t<double> hist( window, bins_per_dimension );
       for(size_t sample_i = 0; sample_i < num_samples_for_estimate; ++sample_i){
@@ -127,7 +128,7 @@ namespace point_process_core {
 	for( math_core::nd_point_t p : sample ) {
 	  hist.increment_bin( p );
 	}
-	this->mcmc( num_mcmc_iterations_between_samples, false );
+	this->mcmc( num_mcmc_iterations_between_samples, tick );
       }
       // normalize the counts by the numbr of samples to get
       // average intensity
