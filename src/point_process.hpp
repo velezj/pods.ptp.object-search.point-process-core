@@ -115,13 +115,13 @@ namespace point_process_core {
     // as well as the number of samples to use to compute the expected number
     // of points per grid region.
     virtual
-    histrogram_t<double>
+    histogram_t<double>
     intensity_estimate( const math_core::nd_aabox_t& window,
 			const size_t bins_per_dimension,
 			const size_t num_samples_for_estimate = 1000,
 			const size_t num_mcmc_iterations_between_samples = 1 )
     {
-      histrogram_t<double> hist( window, bins_per_dimension );
+      histogram_t<double> hist( window, bins_per_dimension );
       for(size_t sample_i = 0; sample_i < num_samples_for_estimate; ++sample_i){
 	std::vector<math_core::nd_point_t> sample = this->sample();
 	for( math_core::nd_point_t p : sample ) {

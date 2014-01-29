@@ -76,18 +76,27 @@ namespace point_process_core {
     
     // ok, calculate the width,height of image
     int width, height;
-    width = (grid.window().end[0] - grid.window().start[0]) / grid.cell_sizes()[0];
-    height = (grid.window().end[1] - grid.window().start[1]) / grid.cell_sizes()[1];
+    width = (grid.window().end.coordinate[0] - grid.window().start.coordinate[0]) / grid.cell_sizes()[0];
+    height = (grid.window().end.coordinate[1] - grid.window().start.coordinate[1]) / grid.cell_sizes()[1];
     
     // create the CImg
     CImg<double> image( width, height, 1, 1, 0 );
+
+    // get hte max element
+    double max_value = -std::numeric_limits<double>::infinity();
+    for( auto cell : grid.all_cells() ) {
+      if( grid(cell) &&
+	  max_value < *grid(cell) ) {
+	max_value = *grid(cell);
+      }
+    }
     
     // ok, now go thorugh every cell and push it's mark onto hte image
     for( auto cell : grid.all_cells() ) {
       long x = cell.coordinate[0];
       long y = cell.coordinate[1];
       if( grid( cell ) ) {
-	image( x, y ) = *grid(cell);
+	image( x, y ) = ( *grid(cell) / max_value ) * 255;
       }
     }
     
