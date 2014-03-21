@@ -6,13 +6,14 @@
 #include <boost/shared_ptr.hpp>
 #include <iostream>
 #include "histogram.hpp"
+#include <boost/any.hpp>
 
 namespace point_process_core {
 
-  
   // Description:
-  // A base class for all point processes
-  class mcmc_point_process_t 
+  // A base class for point processes
+  template< class SelfT = boost::any >
+  class point_process_t
   {
   public:
 
@@ -20,16 +21,9 @@ namespace point_process_core {
     // Clones a point process
     // (this is usually so that we can compute a future state)
     virtual
-    boost::shared_ptr<mcmc_point_process_t>
+    boost::shared_ptr< SelfT >
     clone() const = 0;
 
-    // Description:
-    // Turns on mcmc tracing with the given directory as the
-    // trace root.
-    virtual
-    void trace_mcmc( const std::string& trace_dir ) = 0;
-    virtual
-    void trace_mcmc_off( ) = 0;
 
     // Description:
     // Retrusn the window for this point process
@@ -47,22 +41,6 @@ namespace point_process_core {
     virtual
     std::vector<math_core::nd_point_t>
     sample() const = 0;
-
-    // Description:
-    // Runs a single step of MCMC sampling
-    virtual
-    void single_mcmc_step() = 0;
-    
-    // Description:
-    // Returns a sample and steps the process by one
-    virtual
-    std::vector<math_core::nd_point_t>
-    sample_and_step()
-    {
-      std::vector<math_core::nd_point_t> s = this->sample();
-      this->single_mcmc_step();
-      return s;
-    }
     
     // Description:
     // Update with a new set of observations
@@ -73,21 +51,6 @@ namespace point_process_core {
     // Add negative observation region
     virtual
     void add_negative_observation( const math_core::nd_aabox_t& region ) = 0;
-
-    // Descripton:
-    // Runs mcmc a number of iterations
-    virtual
-    void mcmc( const std::size_t& iterations, bool tick = false )
-    {
-      for( std::size_t i = 0; i < iterations; ++i ) {
-	this->single_mcmc_step();
-	if( tick ) {
-	  std::cout << "." << i << "/" << iterations << "/";
-	  std::cout.flush();
-	}   
-      }
-    }
-
 
     // Description:
     // Prints a "shallow" one line trace (no newlines) for this
@@ -107,6 +70,62 @@ namespace point_process_core {
     { std::cout << "!!! DEFAULT NON-PLOT plot() called!" << std::endl;
       return ""; }
 
+
+  };
+
+  
+  // Description:
+  // A base class for all point processes
+  class mcmc_point_process_t : public point_process_t<mcmc_point_process_t>
+  {
+  public:
+
+    // Description:
+    // Clones a point process
+    // (this is usually so that we can compute a future state)
+    virtual
+    boost::shared_ptr<mcmc_point_process_t>
+    clone() const = 0;
+
+    // Description:
+    // Turns on mcmc tracing with the given directory as the
+    // trace root.
+    virtual
+    void trace_mcmc( const std::string& trace_dir ) = 0;
+    virtual
+    void trace_mcmc_off( ) = 0;
+
+
+    // Description:
+    // Runs a single step of MCMC sampling
+    virtual
+    void single_mcmc_step() = 0;
+    
+    // Description:
+    // Returns a sample and steps the process by one
+    virtual
+    std::vector<math_core::nd_point_t>
+    sample_and_step()
+    {
+      std::vector<math_core::nd_point_t> s = this->sample();
+      this->single_mcmc_step();
+      return s;
+    }
+    
+
+    // Descripton:
+    // Runs mcmc a number of iterations
+    virtual
+    void mcmc( const std::size_t& iterations, bool tick = false )
+    {
+      for( std::size_t i = 0; i < iterations; ++i ) {
+	this->single_mcmc_step();
+	if( tick ) {
+	  std::cout << "." << i << "/" << iterations << "/";
+	  std::cout.flush();
+	}   
+      }
+    }
 
     // Description:
     // Computes an estimate for the intensity funciton for this point process
