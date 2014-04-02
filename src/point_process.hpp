@@ -148,6 +148,9 @@ namespace point_process_core {
 	  hist.increment_bin( p );
 	}
 	this->mcmc( num_mcmc_iterations_between_samples, tick );
+	if( tick ) {
+	  std::cout << "[" << sample_i << "/" << num_samples_for_estimate << "]" << std::endl;
+	}
       }
       // normalize the counts by the numbr of samples to get
       // average intensity
