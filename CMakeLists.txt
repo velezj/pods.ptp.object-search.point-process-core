@@ -29,6 +29,7 @@ add_library( p2l-point-process-core SHARED
   src/entropy.cpp
   src/marked_grid.cpp
   src/context.cpp
+  src/point_process.cpp
   )
 pods_install_headers( 
   src/point_math.hpp

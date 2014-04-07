@@ -4,6 +4,7 @@
 
 #include <lcmtypes/p2l_math_core.hpp>
 #include <boost/shared_ptr.hpp>
+#include <boost/enable_shared_from_this.hpp>
 #include <iostream>
 #include "histogram.hpp"
 #include <boost/any.hpp>
@@ -71,12 +72,23 @@ namespace point_process_core {
       return ""; }
 
 
+    // Description:
+    // Returns the expected entropy for this point process.
+    // This is the expected entropy of the distribution over points from
+    // this point process.
+    // In general, this is a *SLOW* *APPROXIMATE* computation, but some 
+    // point processes do have a closed form solution for this.
+    virtual 
+    double expected_entropy() const = 0;
+
   };
 
   
   // Description:
   // A base class for all point processes
-  class mcmc_point_process_t : public point_process_t<mcmc_point_process_t>
+  class mcmc_point_process_t : 
+    public point_process_t<mcmc_point_process_t>,
+    public boost::enable_shared_from_this<mcmc_point_process_t>
   {
   public:
 
@@ -86,6 +98,14 @@ namespace point_process_core {
     virtual
     boost::shared_ptr<mcmc_point_process_t>
     clone() const = 0;
+
+    // Description:
+    // Computes teh expected emtropy.
+    // By default we approximate this using samples from
+    // the MCMC point process, but this can be overridden in 
+    // derrived classes
+    virtual
+    double expected_entropy() const;
 
     // Description:
     // Turns on mcmc tracing with the given directory as the
