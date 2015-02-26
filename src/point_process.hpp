@@ -2,7 +2,7 @@
 #if !defined( __POINT_PROCESS_CORE_POINT_PROCESS_HPP__ )
 #define __POINT_PROCESS_CORE_POINT_PROCESS_HPP__
 
-#include <lcmtypes/p2l_math_core.hpp>
+#include <math-core/types.hpp>
 #include <boost/shared_ptr.hpp>
 #include <boost/enable_shared_from_this.hpp>
 #include <iostream>

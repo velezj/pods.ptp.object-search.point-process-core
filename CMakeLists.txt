@@ -4,12 +4,6 @@ cmake_minimum_required(VERSION 2.6.0)
 set(POD_NAME p2l-point-process-core)
 include(cmake/pods.cmake)
 
-# automatically build LCM types.  This also defines a number of CMake
-# variables, see cmake/lcmtypes.cmake for details
-#include(cmake/lcmtypes.cmake)
-#lcmtypes_build()
-
-# include_directories(${LCMTYPES_INCLUDE_DIRS})
 
 #set(CMAKE_CXX_FLAGS "-std=c++0x -pedantic -Wall -O2 -g")
 #set(CMAKE_CXX_FLAGS "-std=c++0x -pedantic -Wall -O0 -g3")
@@ -44,15 +38,13 @@ pods_use_pkg_config_packages(p2l-point-process-core
     gsl-1.16 
     boost-1.54.0 
     p2l-math-core
-    lcmtypes_p2l-math-core
     p2l-probability-core
-    lcmtypes_p2l-probability-core
     cimg-1.5.7)
 pods_install_libraries( p2l-point-process-core )
 pods_install_pkg_config_file(p2l-point-process-core
     CFLAGS
     LIBS -lp2l-point-process-core
-    REQUIRES gsl-1.16 boost-1.54.0 p2l-math-core lcmtypes_p2l-math-core p2l-probability-core lcmtypes_p2l-probability-core cimg-1.5.7
+    REQUIRES gsl-1.16 boost-1.54.0 p2l-math-core p2l-probability-core cimg-1.5.7
     VERSION 0.0.2)
 
 

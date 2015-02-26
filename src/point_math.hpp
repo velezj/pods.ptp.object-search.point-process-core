@@ -2,8 +2,8 @@
 #if !defined( __POINT_MATH_HPP__ )
 #define __POINT_MATH_HPP__
 
-#include <lcmtypes/p2l_math_core.hpp>
-#include <lcmtypes/p2l_probability_core.hpp>
+#include <math-core/types.hpp>
+#include <probability-core/types.hpp>
 
 
 namespace point_process_core {
