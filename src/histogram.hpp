@@ -5,7 +5,7 @@
 
 #include "marked_grid.hpp"
 #include <algorithm>
-#include <p2l-common/plots.hpp>
+#include <object-search.common/plots.hpp>
 
 
 namespace point_process_core {

@@ -1,12 +1,12 @@
 
-add_executable( p2l-point-process-core-test-marked-grid
+add_executable( object-search.point-process-core-test-marked-grid
   test-marked-grid.cpp )
-pods_use_pkg_config_packages( p2l-point-process-core-test-marked-grid
-  p2l-math-core 
-  p2l-point-process-core
-  p2l-probability-core
+pods_use_pkg_config_packages( object-search.point-process-core-test-marked-grid
+  object-search.math-core 
+  object-search.point-process-core
+  object-search.probability-core
   )
-pods_install_executables( p2l-point-process-core-test-marked-grid )
+pods_install_executables( object-search.point-process-core-test-marked-grid )
 
 
 
@@ -18,12 +18,12 @@ pods_install_executables( p2l-point-process-core-test-marked-grid )
 # pods_install_executables( point-process-core-test-context )
 
 
-add_executable( p2l-point-process-core-test-histogram
+add_executable( object-search.point-process-core-test-histogram
   test-histogram.cpp )
-pods_use_pkg_config_packages( p2l-point-process-core-test-histogram
+pods_use_pkg_config_packages( object-search.point-process-core-test-histogram
   boost-1.54.0
-  p2l-math-core 
-  p2l-point-process-core
-  p2l-probability-core
+  object-search.math-core 
+  object-search.point-process-core
+  object-search.probability-core
   )
-pods_install_executables( p2l-point-process-core-test-histogram )
+pods_install_executables( object-search.point-process-core-test-histogram )

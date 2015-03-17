@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.6.0)
 
 # pull in the pods macros. See cmake/pods.cmake for documentation
-set(POD_NAME p2l-point-process-core)
+set(POD_NAME object-search.point-process-core)
 include(cmake/pods.cmake)
 
 
@@ -18,7 +18,7 @@ endif (USE_PEDANTIC)
 
 
 # the point-process-core library
-add_library( p2l-point-process-core SHARED
+add_library( object-search.point-process-core SHARED
   src/point_math.cpp
   src/entropy.cpp
   src/marked_grid.cpp
@@ -34,17 +34,17 @@ pods_install_headers(
   src/histogram.hpp
   DESTINATION
   point-process-core )
-pods_use_pkg_config_packages(p2l-point-process-core 
+pods_use_pkg_config_packages(object-search.point-process-core 
     gsl-1.16 
     boost-1.54.0 
-    p2l-math-core
-    p2l-probability-core
+    object-search.math-core
+    object-search.probability-core
     cimg-1.5.7)
-pods_install_libraries( p2l-point-process-core )
-pods_install_pkg_config_file(p2l-point-process-core
+pods_install_libraries( object-search.point-process-core )
+pods_install_pkg_config_file(object-search.point-process-core
     CFLAGS
-    LIBS -lp2l-point-process-core
-    REQUIRES gsl-1.16 boost-1.54.0 p2l-math-core p2l-probability-core cimg-1.5.7
+    LIBS -lobject-search.point-process-core
+    REQUIRES gsl-1.16 boost-1.54.0 object-search.math-core object-search.probability-core cimg-1.5.7
     VERSION 0.0.2)
 
 
